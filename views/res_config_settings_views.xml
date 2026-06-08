@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.offline.online.sync</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="90"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Cloud Sync" string="Cloud Sync" name="offline_online_estimate_sync" groups="base.group_system">
+                    <block title="Cloud Server Configuration" name="cloud_sync_config">
+                        <setting id="cloud_sync_url_setting" help="Set the URL of the central Cloud Odoo Server">
+                            <field name="cloud_sync_url" placeholder="http://80.241.213.153:8069"/>
+                        </setting>
+                        <setting id="cloud_sync_db_setting" help="Set the Cloud Database Name">
+                            <field name="cloud_sync_db"/>
+                        </setting>
+                        <setting id="cloud_sync_username_setting" help="Cloud Username or API Key">
+                            <field name="cloud_sync_username"/>
+                        </setting>
+                        <setting id="cloud_sync_password_setting" help="Cloud Password">
+                            <field name="cloud_sync_password" password="True"/>
+                        </setting>
+                        <setting id="cloud_last_sync_date_setting" help="Last time a successful sync occurred">
+                            <field name="cloud_last_sync_date"/>
+                        </setting>
+                        
+                        <div class="mt16">
+                            <button name="action_generate_api_key" type="object" string="Generate API Key" class="btn-warning"/>
+                            <button name="action_test_connection" type="object" string="Test Connection" class="btn-primary ml8"/>
+                            <button name="action_sync_now" type="object" string="Sync Now" class="btn-secondary ml8"/>
+                        </div>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_offline_online_sync_config" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module' : 'offline_online_estimate_sync', 'bin_size': False}</field>
+    </record>
+
+    <menuitem id="menu_offline_online_sync_root" name="Cloud Sync" parent="job_card_management.menu_job_card_config" sequence="100"/>
+    <menuitem id="menu_offline_online_sync_settings" name="Settings" parent="menu_offline_online_sync_root" action="action_offline_online_sync_config" sequence="10"/>
+</odoo>
